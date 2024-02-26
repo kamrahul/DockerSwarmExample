@@ -118,6 +118,8 @@ services:
       - "80:80"
     deploy:
       replicas: 2
+      constraints:
+        - node.role == manager
 
 
 ```
