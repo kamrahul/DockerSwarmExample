@@ -1,0 +1,40 @@
+version: '2.0'
+networks:
+    my-network:
+        external: true
+
+services:
+    app-one:
+        container_name: flask_app_one
+        stdin_open: true
+        tty: true
+        networks:
+          - my-network
+        build: 
+            context: .
+            dockerfile: Dockerfile.one
+        ports:
+            - "5001:5000"
+
+    app-two:
+        container_name: flask_app_two
+        stdin_open: true
+        tty: true
+        networks:
+          - my-network        
+
+        build: 
+            context: .
+            dockerfile: Dockerfile.two
+        ports:
+            - "5002:5000"
+    nginx:
+        image: nginx:latest
+        networks:
+          - my-network
+        volumes:
+          - ./conf.d:/etc/nginx/conf.d
+        container_name: nginx-container
+        restart: on-failure
+        ports:
+            - "80:80"

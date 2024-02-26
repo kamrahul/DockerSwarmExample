@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  app-one:
+    image: dockerswarmexample-app-one
+    ports:
+      - "5001:5000"
+    deploy:
+      replicas: 2
+
+  app-two:
+    image: dockerswarmexample-app-two
+    ports:
+      - "5002:5000"
+    deploy:
+      replicas: 2
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    restart: on-failure
+    ports:
+      - "80:80"
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.role == manager
