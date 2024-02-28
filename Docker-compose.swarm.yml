@@ -6,6 +6,11 @@ services:
       - "5001:5000"
     deploy:
       replicas: 2
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
   app-two:
     image: dockerswarmexample-app-two
@@ -13,6 +18,11 @@ services:
       - "5002:5000"
     deploy:
       replicas: 2
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
   nginx:
     image: nginx:latest
@@ -23,6 +33,11 @@ services:
       - "80:80"
     deploy:
       replicas: 2
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
       placement:
         constraints:
           - node.role == manager
